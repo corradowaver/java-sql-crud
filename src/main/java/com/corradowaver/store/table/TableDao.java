@@ -1,5 +1,6 @@
 package com.corradowaver.store.table;
 
+import com.corradowaver.store.connector.Connector;
 import com.corradowaver.store.dao.Dao;
 
 import java.sql.Connection;
@@ -12,8 +13,8 @@ import java.util.List;
 public class TableDao implements Dao<Product> {
   private Connection connection;
 
-  public TableDao(Connection connection) {
-    this.connection = connection;
+  public TableDao(){
+    this.connection = Connector.getConnection();
   }
 
   public void fillTable(List<Product> products) {
@@ -26,7 +27,6 @@ public class TableDao implements Dao<Product> {
     });
   }
 
-  @Override
   public List<Product> getAll() throws SQLException {
       ResultSet resultSet =
               connection.createStatement().executeQuery("SELECT * FROM products");
@@ -46,7 +46,6 @@ public class TableDao implements Dao<Product> {
     ps.execute();
   }
 
-  @Override
   public int getPrice(Product product) throws SQLException {
     String title = product.getTitle();
     String sql = "SELECT cost FROM products WHERE title = ?";
@@ -67,7 +66,6 @@ public class TableDao implements Dao<Product> {
     ps.execute();
   }
 
-  @Override
   public List<Product> filterByPrice(int from, int to) throws SQLException {
     String sql = "SELECT * FROM products WHERE cost BETWEEN ? AND ?";
     PreparedStatement ps = connection.prepareStatement(sql);
