@@ -16,6 +16,16 @@ public class TableDao implements Dao<Product> {
     this.connection = connection;
   }
 
+  public void fillTable(List<Product> products) {
+    products.forEach(product -> {
+      try {
+        add(product);
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    });
+  }
+
   @Override
   public List<Product> getAll() throws SQLException {
       ResultSet resultSet =
