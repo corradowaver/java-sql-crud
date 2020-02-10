@@ -1,13 +1,11 @@
 package com.corradowaver.store.dao;
 
-import com.corradowaver.store.table.Product;
-
 import java.sql.SQLException;
 import java.util.List;
 
 public interface Dao<T> {
 
-  List<T> getAll();
+  List<T> getAll() throws SQLException;
 
   void add(T t) throws SQLException;
 

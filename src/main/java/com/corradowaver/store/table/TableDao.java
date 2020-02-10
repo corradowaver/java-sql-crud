@@ -17,15 +17,10 @@ public class TableDao implements Dao<Product> {
   }
 
   @Override
-  public List<Product> getAll() {
-    try {
+  public List<Product> getAll() throws SQLException {
       ResultSet resultSet =
               connection.createStatement().executeQuery("SELECT * FROM products");
       return makeProductsList(resultSet);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
   }
 
   @Override
@@ -83,7 +78,7 @@ public class TableDao implements Dao<Product> {
   }
 
   private List<Product> makeProductsList(ResultSet resultSet) throws SQLException {
-    List<Product> products = new ArrayList<Product>();
+    List<Product> products = new ArrayList<>();
 
     while (resultSet.next()) {
       int id = resultSet.getInt("id");
