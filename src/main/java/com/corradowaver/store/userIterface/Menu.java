@@ -11,7 +11,7 @@ public abstract class Menu {
 
   public static void showMenu() {
     System.out.println("Welcome to the store");
-    while (true) {
+    menu: while (true) {
       System.out.print("Enter command: ");
       String cmd = sc.next();
       switch (cmd) {
@@ -41,8 +41,9 @@ public abstract class Menu {
           break;
         case "/quit":
           System.out.println("Bye");
-          break;
+          break menu;
         default:
+          System.out.println("!invalid command!");
           break;
       }
     }

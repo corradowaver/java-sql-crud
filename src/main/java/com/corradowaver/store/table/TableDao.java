@@ -15,16 +15,6 @@ public class TableDao  {
     this.connection = Connector.getConnection();
   }
 
-  public void fillTable(List<Product> products) {
-    products.forEach(product -> {
-      try {
-        add(product);
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    });
-  }
-
   public List<Product> getAll() throws SQLException {
       ResultSet resultSet =
               connection.createStatement().executeQuery("SELECT * FROM products");

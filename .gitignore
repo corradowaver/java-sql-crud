@@ -93,3 +93,4 @@ fabric.properties
 
 **/test
 */test-classes
+target/*

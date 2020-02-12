@@ -16,7 +16,6 @@ public class Product {
   public Product(String title) {
     this.prodid = UUID.randomUUID().toString();
     this.title = title;
-    this.cost = cost;
   }
 
   public String getProdid() {
@@ -27,16 +26,8 @@ public class Product {
     return title;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
   public int getCost() {
     return cost;
-  }
-
-  public void setCost(int cost) {
-    this.cost = cost;
   }
 
 }
