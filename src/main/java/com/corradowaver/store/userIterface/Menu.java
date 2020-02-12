@@ -1,7 +1,5 @@
 package com.corradowaver.store.userIterface;
 
-import com.corradowaver.store.table.Product;
-
 import java.util.Scanner;
 
 public abstract class Menu {
@@ -15,6 +13,9 @@ public abstract class Menu {
       System.out.print("Enter command: ");
       String cmd = sc.next();
       switch (cmd) {
+        case "/run_task":
+          ua.task();
+          break;
         case "/drop_db":
           ua.dropTable();
           break;
