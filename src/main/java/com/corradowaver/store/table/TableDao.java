@@ -1,8 +1,6 @@
 package com.corradowaver.store.table;
 
 import com.corradowaver.store.connector.Connector;
-import com.corradowaver.store.dao.Dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableDao implements Dao<Product> {
+public class TableDao  {
   private Connection connection;
 
   public TableDao(){
@@ -33,14 +31,13 @@ public class TableDao implements Dao<Product> {
       return makeProductsList(resultSet);
   }
 
-  @Override
   public void add(Product product) throws SQLException {
-    int prodid = product.getProdid();
+    String prodid = product.getProdid();
     String title = product.getTitle();
     int cost = product.getCost();
     String sql = "INSERT INTO products (prodid, title, cost) VALUES (?, ?, ?)";
     PreparedStatement ps = connection.prepareStatement(sql);
-    ps.setInt(1, prodid);
+    ps.setString(1, prodid);
     ps.setString(2, title);
     ps.setInt(3, cost);
     ps.execute();
@@ -56,7 +53,6 @@ public class TableDao implements Dao<Product> {
     return resultSet.getInt("cost");
   }
 
-  @Override
   public void changePrice(Product product, int newPrice) throws SQLException {
     String title = product.getTitle();
     String sql = "UPDATE products SET cost = ? WHERE title = ?";
@@ -76,7 +72,6 @@ public class TableDao implements Dao<Product> {
     return makeProductsList(resultSet);
   }
 
-  @Override
   public void delete(Product product) throws SQLException {
     String title = product.getTitle();
     String sql = "DELETE FROM products WHERE title = ?";
@@ -89,12 +84,10 @@ public class TableDao implements Dao<Product> {
     List<Product> products = new ArrayList<>();
 
     while (resultSet.next()) {
-      int id = resultSet.getInt("id");
-      int prodid = resultSet.getInt("prodid");
       String title = resultSet.getString("title");
       int cost = resultSet.getInt("cost");
 
-      Product product = new Product(id, prodid, title,cost);
+      Product product = new Product(title,cost);
       products.add(product);
     }
     return products;

@@ -1,27 +1,46 @@
 package com.corradowaver.store.userIterface;
 
-import com.corradowaver.store.dao.Dao;
 import com.corradowaver.store.table.Product;
+import com.corradowaver.store.table.TableController;
 import com.corradowaver.store.table.TableDao;
-import com.mysql.cj.result.SqlDateValueFactory;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserActionsDao implements Dao<Product> {
+public class UserActionsDao {
 
   TableDao table = new TableDao();
+  TableController tc = new TableController();
+
+  public void createTable() {
+    try {
+      tc.createNewTable();
+      System.out.println("*success*");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void dropTable() {
+    try {
+      tc.deleteTable();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
   public void showAll() {
     try {
       List<Product> products = table.getAll();
-      products.forEach(product -> {
-        System.out.println("-----------");
-        System.out.println(product.getId() + " "
-                + product.getProdid() + " "
-                + product.getTitle() + " "
-                + product.getCost());
-      });
+      if (!products.isEmpty()) {
+        products.forEach(product -> {
+          System.out.println("-----------");
+          System.out.println(product.getTitle() + " "
+                  + product.getCost());
+        });
+      } else {
+        System.out.println("!empty products list!");
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -30,51 +49,54 @@ public class UserActionsDao implements Dao<Product> {
   public void filterByPrice(int from, int to) {
     try {
       List<Product> products = table.filterByPrice(from, to);
-      products.forEach(product -> {
-        System.out.println("-----------");
-        System.out.println(product.getId() + " "
-                + product.getProdid() + " "
-                + product.getTitle() + " "
-                + product.getCost());
-      });
+      if (!products.isEmpty()) {
+        products.forEach(product -> {
+          System.out.println("-----------");
+          System.out.println(product.getTitle() + " "
+                  + product.getCost());
+        });
+      } else {
+        System.out.println("!products not found!");
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  @Override
-  public void add(Product product){
+  public void add(String title, int cost){
     try {
+      Product product = new Product(title, cost);
       table.add(product);
-      System.out.println("success");
+      System.out.println("*success*");
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public void getPrice(Product product) {
+  public void getPrice(String title) {
     try {
+      Product product = new Product(title);
       System.out.println(table.getPrice(product));
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println("!product not found!");
     }
   }
 
-  @Override
-  public void changePrice(Product product, int newPrice) {
+  public void changePrice(String title, int newPrice) {
     try {
+      Product product = new Product(title);
       table.changePrice(product, newPrice);
-      System.out.println("success");
+      System.out.println("*success*");
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  @Override
-  public void delete(Product product) {
+  public void delete(String title) {
     try {
+      Product product = new Product(title);
       table.delete(product);
-      System.out.println("success");
+      System.out.println("*success*");
     } catch (SQLException e) {
       e.printStackTrace();
     }

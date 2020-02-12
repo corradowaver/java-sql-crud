@@ -1,30 +1,26 @@
 package com.corradowaver.store.table;
 
+import java.util.UUID;
+
 public class Product {
-  private int id;
-  private int prodid;
+  private String prodid;
   private String title;
   private int cost;
 
-  public Product(int id, int prodid, String title, int cost) {
-    this.id = id;
-    this.prodid = prodid;
+  public Product(String title, int cost) {
+    this.prodid = UUID.randomUUID().toString();
     this.title = title;
     this.cost = cost;
   }
 
-  public Product(int prodid, String title, int cost) {
-    this.prodid = prodid;
+  public Product(String title) {
+    this.prodid = UUID.randomUUID().toString();
     this.title = title;
     this.cost = cost;
   }
 
-  public int getProdid() {
+  public String getProdid() {
     return prodid;
-  }
-
-  public void setProdid(int prodid) {
-    this.prodid = prodid;
   }
 
   public String getTitle() {
@@ -43,7 +39,4 @@ public class Product {
     this.cost = cost;
   }
 
-  public int getId() {
-    return id;
-  }
 }
