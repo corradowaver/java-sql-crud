@@ -10,43 +10,42 @@ public abstract class Menu {
 
 
   public static void showMenu() {
-    System.out.println("What do you want to do?");
-    String cmd = sc.next();
-    switch (cmd) {
-      case "/drop_db":
-        break;
-      case "/fill_db":
-        break;
-      case "/add":
-        ua.add(fillProduct());
-        break;
-      case "/delete":
-        ua.delete(fillProduct());
-        break;
-      case "/show_all":
-        ua.showAll();
-        break;
-      case "/price":
-        ua.getPrice(fillProduct());
-        break;
-      case "/change_price":
-        ua.changePrice(fillProduct(), sc.nextInt());
-        break;
-      case "/filter_by_price":
-        ua.filterByPrice(sc.nextInt(), sc.nextInt());
-        break;
-
+    System.out.println("Welcome to the store");
+    while (true) {
+      System.out.print("Enter command: ");
+      String cmd = sc.next();
+      switch (cmd) {
+        case "/drop_db":
+          ua.dropTable();
+          break;
+        case "/create_db":
+          ua.createTable();
+          break;
+        case "/add":
+          ua.add(sc.next(), sc.nextInt());
+          break;
+        case "/delete":
+          ua.delete(sc.next());
+          break;
+        case "/show_all":
+          ua.showAll();
+          break;
+        case "/price":
+          ua.getPrice(sc.next());
+          break;
+        case "/change_price":
+          ua.changePrice(sc.next(), sc.nextInt());
+          break;
+        case "/filter_by_price":
+          ua.filterByPrice(sc.nextInt(), sc.nextInt());
+          break;
+        case "/quit":
+          System.out.println("Bye");
+          break;
+        default:
+          break;
+      }
     }
 
-  }
-
-  private static Product fillProduct() {
-    System.out.println("Enter product id");
-    int prodId = sc.nextInt();
-    System.out.println("Enter product title");
-    String title = sc.next();
-    System.out.println("Enter product price");
-    int price = sc.nextInt();
-    return new Product(prodId, title, price);
   }
 }

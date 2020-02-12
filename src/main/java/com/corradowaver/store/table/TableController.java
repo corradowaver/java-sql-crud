@@ -1,22 +1,24 @@
 package com.corradowaver.store.table;
 
+import com.corradowaver.store.connector.Connector;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class TableController {
+public  class TableController {
 
   private Connection connection;
 
-  public TableController(Connection connection) {
-    this.connection = connection;
+  public TableController() {
+    this.connection = Connector.getConnection();
   }
 
   public void createNewTable() throws SQLException {
     final String CREATE_TABLE_SQL="CREATE TABLE IF NOT EXISTS products ("
             + "id INT NOT NULL UNIQUE AUTO_INCREMENT,"
-            + "prodid INT not NULL,"
-            + "title VARCHAR(255) UNIQUE ,"
-            + "cost INT NOT NULL,"
+            + "prodid VARCHAR(50) not NULL,"
+            + "title VARCHAR(255) UNIQUE,"
+            + "cost INT,"
             + "PRIMARY KEY (id))";
     connection.createStatement().executeUpdate(CREATE_TABLE_SQL);
   }
