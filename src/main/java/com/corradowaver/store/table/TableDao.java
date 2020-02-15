@@ -15,6 +15,15 @@ public class TableDao  {
     this.connection = Connector.getConnection();
   }
 
+  public boolean ifExists(Product product) throws SQLException {
+    String title = product.getTitle();
+    String sql = "SELECT * FROM products WHERE title = ?";
+    PreparedStatement ps = connection.prepareStatement(sql);
+    ps.setString(1, title);
+    ResultSet resultSet = ps.executeQuery();
+    return resultSet.next();
+  }
+
   public List<Product> getAll() throws SQLException {
       ResultSet resultSet =
               connection.createStatement().executeQuery("SELECT * FROM products");
