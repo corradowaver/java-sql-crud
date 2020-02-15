@@ -14,21 +14,22 @@ public class UserActionsDao {
   private TableController tc = new TableController();
 
   public void task() {
-    System.out.println("%t%t*Running default task");
+    System.out.println("\t*Running default task*");
     dropTable();
     createTable();
     System.out.print("Enter a number of products: ");
     int number = sc.nextInt();
     for (int i = 0; i < number; i++) {
-      System.out.println("Enter title then price: ");
-      add(sc.next(), sc.nextInt());
+      String title = "prod" + i;
+      int cost = (int) (i + (Math.random() * 1000));
+      add(title, cost);
     }
   }
 
   public void createTable() {
     try {
       tc.createNewTable();
-      System.out.println("\t\t*new table has been created*");
+      System.out.println("\t*new table has been created*");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -37,7 +38,7 @@ public class UserActionsDao {
   public void dropTable() {
     try {
       tc.deleteTable();
-      System.out.println("\t\t*old table has been deleted*");
+      System.out.println("\t*old table has been deleted*");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -56,7 +57,7 @@ public class UserActionsDao {
       if (!products.isEmpty()) {
         printList(products);
       } else {
-        System.out.println("\t\t!empty products list!");
+        System.out.println("\t!empty products list!");
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -69,7 +70,7 @@ public class UserActionsDao {
       if (!products.isEmpty()) {
        printList(products);
       } else {
-        System.out.println("\t\t!empty products list!");
+        System.out.println("\t!empty products list!");
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -79,39 +80,55 @@ public class UserActionsDao {
   public void add(String title, int cost){
     try {
       Product product = new Product(title, cost);
-      table.add(product);
-      System.out.println("\t\t*success*");
+      if ((cost > 0) && (!table.ifExists(product))) {
+        table.add(product);
+        //System.out.println("\t*success*");
+      } else {
+        System.out.println("\t!invalid price or product already exists!");
+      }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println(e.getMessage());
     }
   }
 
   public void getPrice(String title) {
     try {
       Product product = new Product(title);
-      System.out.println(table.getPrice(product));
+      if (table.ifExists(product)) {
+        System.out.println(table.getPrice(product));
+      } else {
+        System.out.println("\t!product not found!");
+      }
     } catch (SQLException e) {
-      System.out.println("\t\t!product not found!");
+      System.err.println(e.getMessage());
     }
   }
 
   public void changePrice(String title, int newPrice) {
     try {
       Product product = new Product(title);
-      table.changePrice(product, newPrice);
-      System.out.println("\t\t*success*");
+      if ((newPrice > 0) && table.ifExists(product)) {
+        table.changePrice(product, newPrice);
+        System.out.println("\t*success*");
+      } else {
+        System.out.println("\t!invalid price!");
+      }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println(e.getMessage());
     }
   }
 
   public void delete(String title) {
     try {
       Product product = new Product(title);
-      table.delete(product);
-      System.out.println("\t\t*success*");
+      if (table.ifExists(product)) {
+        table.delete(product);
+        System.out.println("\t*success*");
+      } else {
+        System.out.println("\t!product not found!");
+      }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.err.println(e.getMessage());
     }
   }
 
